@@ -1,11 +1,546 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>My GitHub Website</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Calculator - ACR, PCR & INR</title>
+    <style>
+        body { 
+            font-family: sans-serif; 
+            padding: 7px; 
+            text-align: left; 
+            font-size: 12px; 
+            background: #f5f7fa;
+        }
+        
+        .main-container {
+            max-width: 400px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .container { 
+            max-width: 350px; 
+            margin: auto; 
+            padding: 15px; 
+            border-radius: 5px; 
+        }
+        
+        /* Tab Styles */
+        .tab-container {
+            background: #f8f9fa;
+            border-bottom: 1px solid #ccc;
+        }
+        
+        .tab-nav {
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 12px 10px;
+            border: none;
+            border-bottom: 3px solid transparent;
+            background: #f8f9fa;
+            text-align: center;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            color: #666;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: block;
+        }
+        
+        .tab.active {
+            background: white;
+            color: #333;
+            font-weight: 600;
+            border-bottom-color: #3498db;
+        }
+        
+        .tab:hover:not(.active) {
+            background: #e9ecef;
+            color: #495057;
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* Original form styles */
+        input { 
+            margin: 10px 0; 
+            padding: 7px; 
+            width: 85%; 
+            font-size: 14px; 
+            text-align: left;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        button { 
+            margin: 10px 0; 
+            padding: 7px; 
+            width: 90%; 
+            font-size: 14px; 
+            text-align: center;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        button:hover {
+            background: #2980b9;
+        }
+        
+        select { 
+            margin: 10px 0; 
+            padding: 7px; 
+            width: 90%; 
+            font-size: 14px; 
+            text-align: left;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .result { 
+            font-size: 18px; 
+            font-weight: bold; 
+            margin-top: 15px; 
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            border-left: 4px solid #28a745;
+        }
+        
+        .calculation { 
+            font-size: 12px; 
+            margin-top: 10px; 
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        h2 { 
+            text-align: center; 
+            font-size: 18px;
+            margin: 15px 0;
+            color: #2c3e50;
+        }
+        
+        .footer { 
+            font-size: 10px; 
+            text-align: right; 
+            margin-top: 20px; 
+            color: #666;
+        }
+        
+        label {
+            color: #495057;
+            font-weight: 500;
+        }
+        
+        /* INR specific styles */
+        .inr-reference {
+            margin-top: 15px;
+            padding: 10px;
+            background: #e8f4fd;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+        
+        .inr-reference h4 {
+            margin: 0 0 8px 0;
+            color: #2c3e50;
+        }
+        
+        .inr-reference ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        
+        .inr-reference li {
+            margin-bottom: 5px;
+        }
+    </style>
 </head>
 <body>
-  <h1>Hello, World!</h1>
-  <p>This is my first free website on GitHub Pages 🎉</p>
+    <!-- Working Calculator with Tabs -->
+    <div class="main-container">
+        <!-- Tab Navigation -->
+        <div class="tab-container">
+            <div class="tab-nav">
+                <div class="tab active" onclick="switchTab('acr')">ACR</div>
+                <div class="tab" onclick="switchTab('pcr')">PCR</div>
+                <div class="tab" onclick="switchTab('inr')">INR</div>
+                <div class="tab" onclick="switchTab('esr')">ESR</div>
+            </div>
+        </div>
+        
+        <!-- ACR Calculator Tab Content -->
+        <div id="acr-content" class="tab-content active">
+            <div class="container">
+                <h2>ACR Calculator</h2>
+                
+                <label for="albumin">Urine Albumin:<br></label>
+                <input type="number" id="albumin" placeholder="Enter albumin value" required>
+                
+                <label for="albuminUnit"><br>Albumin Unit:<br></label>
+                <select id="albuminUnit">
+                    <option value="mg/L" selected>mg/L</option>
+                </select>
+                
+                <label for="creatinineACR"><br>Urine Creatinine:</label>
+                <input type="number" id="creatinineACR" placeholder="Enter creatinine value" required>
+                
+                <label for="unitACR">Creatinine Unit:</label>
+                <select id="unitACR">
+                    <option value="mmol/L" selected>mmol/L</option>
+                    <option value="g/L">g/L</option>
+                </select>
+                
+                <button onclick="calculateACR()">Calculate ACR</button>
+                <div class="result" id="acrResult" style="display: none;"></div>
+                <div class="calculation" id="acrCalculationDetails" style="display: none;"></div>
+                
+                <div class="footer">Developed by: M. K.</div>
+            </div>
+        </div>
+        
+        <!-- PCR Calculator Tab Content -->
+        <div id="pcr-content" class="tab-content">
+            <div class="container">
+                <h2>PCR Calculator</h2>
+                
+                <label for="protein">Urine Protein:<br></label>
+                <input type="number" id="protein" placeholder="Enter protein value" required>
+                
+                <label for="proteinUnit"><br>Protein Unit:<br></label>
+                <select id="proteinUnit">
+                    <option value="g/L" selected>g/L</option>
+                    <option value="mg/L">mg/L</option>
+                </select>
+                
+                <label for="creatininePCR"><br>Urine Creatinine:</label>
+                <input type="number" id="creatininePCR" placeholder="Enter creatinine value" required>
+                
+                <label for="unitPCR">Creatinine Unit:</label>
+                <select id="unitPCR">
+                    <option value="mmol/L" selected>mmol/L</option>
+                    <option value="mg/dL">mg/dL</option>
+                </select>
+                
+                <button onclick="calculatePCR()">Calculate PCR</button>
+                <div class="result" id="pcrResult" style="display: none;"></div>
+                <div class="calculation" id="pcrCalculationDetails" style="display: none;"></div>
+                
+                <div class="footer">Developed by: M. K.</div>
+            </div>
+        </div>
+        
+        <!-- INR Calculator Tab Content -->
+        <div id="inr-content" class="tab-content">
+            <div class="container">
+                <h2>INR Calculator</h2>
+                
+                <label for="pt">Patient's PT (seconds):<br></label>
+                <input type="number" id="pt" placeholder="Enter PT value" step="0.1" required>
+                
+                <label for="mnpt"><br>Mean Normal PT (seconds):<br></label>
+                <input type="number" id="mnpt" placeholder="Enter MNPT value" step="0.1" required>
+                
+                <label for="isi"><br>ISI Value:<br></label>
+                <input type="number" id="isi" placeholder="Enter ISI value" step="0.01" required>
+                
+                <button onclick="calculateINR()">Calculate INR</button>
+                <div class="result" id="inrResult" style="display: none;"></div>
+                <div class="calculation" id="inrCalculationDetails" style="display: none;"></div>
+                
+                <div class="inr-reference">
+                    <h4>INR Reference Values:</h4>
+                    <ul>
+                        <li>Normal: 0.8-1.2</li>
+                        <li>Therapeutic range (warfarin): 2.0-3.0</li>
+                        <li>High risk patients: 2.5-3.5</li>
+                    </ul>
+                </div>
+                
+                <div class="footer">Developed by: M. K.</div>
+            </div>
+        </div>
+    </div>
+    <!-- ESR Calculator Tab Content -->
+    <div id="esr-content" class="tab-content">
+        <div class="container">
+            <h2>ESR Correction at 18°C</h2>
+
+            <label for="esrValue">Observed ESR (mm/hr):</label>
+            <input type="number" id="esrValue" placeholder="Enter ESR value" required>
+
+            <label for="tempValue">Measurement Temperature (°C):</label>
+            <input type="number" id="tempValue" placeholder="Enter temperature" required>
+
+            <button onclick="calculateESR()">Correct ESR at 18°C</button>
+
+            <div class="result" id="esrResult" style="display: none;"></div>
+            <div class="calculation" id="esrCalculationDetails" style="display: none;"></div>
+			<div class="esr-reference">
+              <h4>Reference: Manley's Nomogram</h4>
+         	</div>
+            <div class="footer">Developed by: M. K.</div>
+        </div>
+    </div>
+
+
+    <script>
+        // Tab switching functionality
+        function switchTab(tabName) {
+            // Hide all tab contents
+            const allContents = document.querySelectorAll('.tab-content');
+            allContents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            const allTabs = document.querySelectorAll('.tab');
+            allTabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName + '-content').classList.add('active');
+            
+            // Add active class to selected tab
+            event.target.classList.add('active');
+            
+            // Clear results when switching tabs
+            clearResults();
+        }
+        
+        function clearResults() {
+            const resultElements = ['acrResult', 'acrCalculationDetails', 'pcrResult', 'pcrCalculationDetails', 'inrResult', 'inrCalculationDetails'];
+            resultElements.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.innerHTML = '';
+                    element.style.display = 'none';
+                }
+            });
+        }
+        
+        // ACR Calculator Function
+        function calculateACR() {
+            let albumin = parseFloat(document.getElementById("albumin").value);
+            let creatinine = parseFloat(document.getElementById("creatinineACR").value);
+            let unit = document.getElementById("unitACR").value;
+            
+            if (isNaN(albumin) || isNaN(creatinine) || creatinine <= 0) {
+                document.getElementById("acrResult").innerHTML = "Please enter valid values.";
+                document.getElementById("acrResult").style.display = "block";
+                document.getElementById("acrCalculationDetails").innerHTML = "";
+                document.getElementById("acrCalculationDetails").style.display = "none";
+                return;
+            }
+            
+            let originalCreatinine = creatinine;
+            
+            if (unit === "mmol/L") { 
+                creatinine = (creatinine * 0.11312).toFixed(3); // Convert mmol/L to g/L
+            } else {
+                creatinine = creatinine.toFixed(3);
+            }
+            
+            let acr = (albumin / creatinine).toFixed(2);
+            let classification = "";
+            let color = "black";
+            
+            if (acr < 30) {
+                classification = "CKD A1 (Normal)";
+                color = "green";
+            } else if (acr >= 30 && acr <= 300) {
+                classification = "CKD A2 (Moderate)";
+                color = "red";
+            } else {
+                classification = "CKD A3 (Severe)";
+                color = "red";
+            }
+            
+            document.getElementById("acrResult").innerHTML = `<strong style="color: ${color};">ACR:</strong> ${acr} <br> <strong style="color: ${color};">${classification}</strong>`;
+            document.getElementById("acrResult").style.display = "block";
+            
+            let calculationDetails = `Albumin: ${albumin} mg/L<br>
+                                      Creatinine: ${originalCreatinine} ${unit} -> ${creatinine} g/L<br>
+                                      ACR = Albumin (mg/L) / Creatinine (g/L) <br>
+                                      ACR = ${albumin} / ${creatinine} <br>
+                                      ACR = ${acr}`;
+            
+            document.getElementById("acrCalculationDetails").innerHTML = `<strong>Calculation:</strong><br>${calculationDetails}`;
+            document.getElementById("acrCalculationDetails").style.display = "block";
+        }
+        
+        // PCR Calculator Function
+        function calculatePCR() {
+            let protein = parseFloat(document.getElementById("protein").value);
+            let proteinUnit = document.getElementById("proteinUnit").value;
+            let creatinine = parseFloat(document.getElementById("creatininePCR").value);
+            let unit = document.getElementById("unitPCR").value;
+            
+            if (isNaN(protein) || isNaN(creatinine) || creatinine <= 0) {
+                document.getElementById("pcrResult").innerHTML = "Please enter valid values.";
+                document.getElementById("pcrResult").style.display = "block";
+                document.getElementById("pcrCalculationDetails").innerHTML = "";
+                document.getElementById("pcrCalculationDetails").style.display = "none";
+                return;
+            }
+            
+            let originalProtein = protein;
+            let originalCreatinine = creatinine;
+            
+            if (proteinUnit === "g/L") { 
+                protein = (protein * 1000).toFixed(3); // Convert g/L to mg/L
+            } else {
+                protein = protein.toFixed(3);
+            }
+            
+            if (unit === "mg/dL") { 
+                creatinine = (creatinine * 10).toFixed(3); // Convert mg/dL to mg/L
+            } else if (unit === "mmol/L") { 
+                creatinine = (creatinine * 113.12).toFixed(3); // Convert mmol/L to mg/L
+            } else {
+                creatinine = creatinine.toFixed(3);
+            }
+            
+            let pcr = (protein / creatinine).toFixed(2);
+            if (pcr < 0.20) {
+                classification = "Normal";
+                color = "green";
+            } else if (pcr >= 0.2 && pcr <= 1.0) {
+                classification = "Low Proteinuria";
+                color = "#f2db07";
+            } else if (pcr >= 1.0 && pcr <= 5.0) {
+                classification = "Moderate Proteinuria";
+                color = "orange";
+            } else {
+                classification = "Nephrosis";
+                color = "red";
+            }
+            
+            document.getElementById("pcrResult").innerHTML = `<strong style="color: ${color};">PCR:</strong> ${pcr} <br> <strong style="color: ${color};">${classification}</strong>`;
+            document.getElementById("pcrResult").style.display = "block";
+            
+            let calculationDetails = `Protein: ${originalProtein} ${proteinUnit} -> ${protein} mg/L<br>
+                                      Creatinine: ${originalCreatinine} ${unit} -> ${creatinine} mg/L<br>
+                                      PCR = Protein (mg/L) / Creatinine (mg/L) <br>
+                                      PCR = ${protein} / ${creatinine} <br>
+                                      PCR = ${pcr}`;
+            
+            document.getElementById("pcrCalculationDetails").innerHTML = `<strong>Calculation:</strong><br>${calculationDetails}`;
+            document.getElementById("pcrCalculationDetails").style.display = "block";
+        }
+        
+        // INR Calculator Function
+        function calculateINR() {
+            let pt = parseFloat(document.getElementById("pt").value);
+            let mnpt = parseFloat(document.getElementById("mnpt").value);
+            let isi = parseFloat(document.getElementById("isi").value);
+            
+            if (isNaN(pt) || isNaN(mnpt) || isNaN(isi) || pt <= 0 || mnpt <= 0 || isi <= 0) {
+                document.getElementById("inrResult").innerHTML = "Please enter valid positive values.";
+                document.getElementById("inrResult").style.display = "block";
+                document.getElementById("inrCalculationDetails").innerHTML = "";
+                document.getElementById("inrCalculationDetails").style.display = "none";
+                return;
+            }
+            
+            // Calculate INR: INR = (Patient's PT / Mean Normal PT) ^ ISI
+            let inr = Math.pow(pt / mnpt, isi).toFixed(2);
+            
+            // Determine interpretation
+            let interpretation = "";
+            let color = "black";
+            
+            if (inr < 0.8) {
+                interpretation = "Below normal range";
+                color = "blue";
+            } else if (inr >= 0.8 && inr <= 1.2) {
+                interpretation = "Normal range";
+                color = "green";
+            } else if (inr > 1.2 && inr < 2.0) {
+                interpretation = "Elevated, subtherapeutic";
+                color = "orange";
+            } else if (inr >= 2.0 && inr <= 3.0) {
+                interpretation = "Therapeutic range (warfarin)";
+                color = "#f2db07";
+            } else if (inr > 3.0 && inr <= 3.5) {
+                interpretation = "Therapeutic for high-risk patients";
+                color = "orange";
+            } else {
+                interpretation = "High risk of bleeding";
+                color = "red";
+            }
+            
+            document.getElementById("inrResult").innerHTML = `<strong style="color: ${color};">INR:</strong> ${inr} <br> <strong style="color: ${color};">${interpretation}</strong>`;
+            document.getElementById("inrResult").style.display = "block";
+            
+            let calculationDetails = `Patient's PT: ${pt} seconds<br>
+                                      Mean Normal PT: ${mnpt} seconds<br>
+                                      ISI Value: ${isi}<br>
+                                      INR = (Patient's PT / Mean Normal PT) ^ ISI <br>
+                                      INR = (${pt} / ${mnpt}) ^ ${isi} <br>
+                                      INR = ${(pt / mnpt).toFixed(3)} ^ ${isi} <br>
+                                      INR = ${inr}`;
+            
+            document.getElementById("inrCalculationDetails").innerHTML = `<strong>Calculation:</strong><br>${calculationDetails}`;
+            document.getElementById("inrCalculationDetails").style.display = "block";
+        }
+    function calculateESR() {
+        let esr = parseFloat(document.getElementById("esrValue").value);
+        let temp = parseFloat(document.getElementById("tempValue").value);
+
+        if (isNaN(esr) || isNaN(temp)) {
+            document.getElementById("esrResult").innerHTML = "Please enter valid values.";
+            document.getElementById("esrResult").style.display = "block";
+            document.getElementById("esrCalculationDetails").innerHTML = "";
+            document.getElementById("esrCalculationDetails").style.display = "none";
+            return;
+        }
+
+        // Manley nomogram correction factor
+        const k = 0.024;
+        let esr18 = esr * (1 + k * (temp - 18));
+        esr18 = esr18.toFixed(0); // round to 3 decimals
+
+        document.getElementById("esrResult").innerHTML = `<strong>Corrected ESR @18°C:</strong> ${esr18} mm/h`;
+        document.getElementById("esrResult").style.display = "block";
+
+        /*let calculationDetails = `Observed ESR: ${esr} mm/h<br>
+                                  Measurement Temp: ${temp} °C<br>
+                                  Correction factor k: ${k}<br>
+                                  ESR corrected to 18°C = ESR_obs * (1 + k*(T - 18))<br>
+                                  ESR = ${esr} * (1 + ${k}*(${temp} - 18)) = ${esr18} mm/h`;
+
+        document.getElementById("esrCalculationDetails").innerHTML = `<strong>Calculation:</strong><br>${calculationDetails}`;
+        document.getElementById("esrCalculationDetails").style.display = "block";*/
+    }
+    </script> 
 </body>
 </html>
