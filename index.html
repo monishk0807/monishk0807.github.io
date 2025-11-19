@@ -4,21 +4,31 @@
 	
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1137049263274228"
 		crossorigin="anonymous"></script>
+		<link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+
+	
 	<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medical Calculator - ACR, PCR & INR</title>
+    <title>PathCal &copy;</title>
     <style>
         body { 
-            font-family: sans-serif; 
+            background-image: url('bg.png');
+			background-size: cover;       
+			background-repeat: no-repeat; 
+			background-position: center;  
+			background-attachment: fixed; 
+			font-family: 'Montserrat', sans-serif;
             padding: 7px; 
             text-align: left; 
-            font-size: 12px; 
-            background: #f5f7fa;
+            font-size: 14px;
+			color: black
+            <!--background: #f5f7fa;-->
         }
         
         .main-container {
-            max-width: 400px;
-            margin: 20px auto;
+            max-width: 65%;
+            margin: auto;
+            padding: 40px;
             background: white;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
@@ -26,10 +36,12 @@
         }
         
         .container { 
-            max-width: 350px; 
-            margin: auto; 
+            max-width: 95%; 
+            margin: auto;
             padding: 15px; 
-            border-radius: 5px; 
+            border-radius: 5px;
+			text-align: left;
+			color: black
         }
         
         /* Tab Styles */
@@ -46,13 +58,13 @@
         
         .tab {
             flex: 1;
-            padding: 12px 10px;
+            padding: 16px 12px;
             border: none;
             border-bottom: 3px solid transparent;
             background: #f8f9fa;
             text-align: center;
             cursor: pointer;
-            font-size: 13px;
+            font-size: 16px;
             font-weight: 500;
             color: #666;
             transition: all 0.3s ease;
@@ -74,6 +86,8 @@
         
         .tab-content {
             display: none;
+			padding: 65px; /* adds space on all sides */
+			text-align: justify;
             animation: fadeIn 0.3s ease-in;
         }
         
@@ -89,19 +103,21 @@
         /* Original form styles */
         input { 
             margin: 10px 0; 
-            padding: 7px; 
-            width: 85%; 
-            font-size: 14px; 
+            padding: 10px 12px; 
+            width: 100%; 
+            font-size: 16px; 
             text-align: left;
             border: 1px solid #ddd;
             border-radius: 4px;
+            vertical-align: middle;
+            box-sizing: border-box;
         }
         
         button { 
             margin: 10px 0; 
-            padding: 7px; 
-            width: 90%; 
-            font-size: 14px; 
+            padding: 12px 15px; 
+            width: 100%; 
+            font-size: 16px; 
             text-align: center;
             background: #3498db;
             color: white;
@@ -109,6 +125,8 @@
             border-radius: 4px;
             cursor: pointer;
             transition: background 0.3s ease;
+            vertical-align: middle;
+            box-sizing: border-box;
         }
         
         button:hover {
@@ -117,12 +135,14 @@
         
         select { 
             margin: 10px 0; 
-            padding: 7px; 
-            width: 90%; 
-            font-size: 14px; 
+            padding: 10px 12px; 
+            width: 100%;
+            font-size: 16px; 
             text-align: left;
             border: 1px solid #ddd;
             border-radius: 4px;
+            vertical-align: middle;
+            box-sizing: border-box;
         }
         
         .result { 
@@ -145,21 +165,25 @@
         
         h2 { 
             text-align: center; 
-            font-size: 18px;
-            margin: 15px 0;
-            color: #2c3e50;
+            font-size: 24px;
+            margin: 10px 5px;
+            color: black;
         }
-        
+        .info-section {
+			font-family: 'Montserrat', sans-serif;
+			text-align: justify;
+		}
+
         .footer { 
-            font-size: 10px; 
+            font-size: 14px; 
             text-align: right; 
             margin-top: 20px; 
             color: #666;
         }
         
         label {
-            color: #495057;
-            font-weight: 500;
+            color: black;
+            font-weight: 1000;
         }
         
         /* INR specific styles */
@@ -187,6 +211,14 @@
     </style>
 </head>
 <body>
+	<div style="max-width: 65%; margin: 20px auto; padding: 40px; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); text-align: center; overflow: hidden;">
+	  <img src="pathcal.png" alt="Logo" style="height: 60px; margin-bottom: 15px;">
+	  <h1 style="margin: 0; font-family: 'Montserrat', sans-serif;">PathCal</h1>
+	</div>
+
+
+
+
     <!-- Working Calculator with Tabs -->
     <div class="main-container">
         <!-- Tab Navigation -->
@@ -203,8 +235,6 @@
         <div id="acr-content" class="tab-content active">
             <div class="container">
                 <h2>ACR Calculator</h2>
-               <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1137049263274228"
-     			crossorigin="anonymous"></script>
                 <label for="albumin">Urine Albumin:<br></label>
                 <input type="number" id="albumin" placeholder="Enter albumin value" required>
                 
@@ -225,9 +255,34 @@
                 <button onclick="calculateACR()">Calculate ACR</button>
                 <div class="result" id="acrResult" style="display: none;"></div>
                 <div class="calculation" id="acrCalculationDetails" style="display: none;"></div>
-                
-                <div class="footer">Developed by: M. K.</div>
             </div>
+            <section class="info-section">
+              <h3>About Urine Albumin to Creatinine Ratio (ACR)</h3>
+              <p>The Urine Albumin to Creatinine Ratio (ACR) is a test used to detect small amounts of albumin (a type of protein) in the urine. It is an important marker for early kidney damage, especially in people with diabetes or hypertension.</p>
+            
+              <h4>Normal and Abnormal Values</h4>
+              <p>Normal ACR values are usually less than 30 mg/g (or less than 3 mg/mmol). Values higher than this may indicate microalbuminuria or proteinuria, suggesting kidney damage.</p>
+            
+              <h4>Interpreting ACR Results</h4>
+              <p>
+                - <strong>Normal ACR:</strong> Less than 30 mg/g – indicates healthy kidneys.<br>
+                - <strong>Microalbuminuria:</strong> 30–300 mg/g – early sign of kidney disease.<br>
+                - <strong>Macroalbuminuria (Proteinuria):</strong> Greater than 300 mg/g – significant kidney damage requiring medical attention.
+              </p>
+            
+              <h4>Example Calculation</h4>
+              <p>If your urine albumin concentration is 50 mg/L and your urine creatinine concentration is 1000 mg/L, your ACR is 50/1000 = 0.05 mg/mg or 50 mg/g, indicating microalbuminuria.</p>
+            
+              <h4>Limitations and Notes</h4>
+              <p>
+                - ACR is a convenient spot urine test and correlates well with 24-hour urine albumin excretion.<br>
+                - Results can be influenced by factors such as exercise, hydration, urinary tract infections, and fever.<br>
+                - Multiple tests over time are recommended to confirm persistent albuminuria.<br>
+                - Always discuss your results with a healthcare provider.
+              </p>
+            
+              <p><em>Disclaimer: This calculator is for educational purposes only and does not replace professional medical advice.</em></p>
+            </section>
         </div>
         
         <!-- PCR Calculator Tab Content -->
@@ -257,8 +312,34 @@
                 <div class="result" id="pcrResult" style="display: none;"></div>
                 <div class="calculation" id="pcrCalculationDetails" style="display: none;"></div>
                 
-                <div class="footer">Developed by: M. K.</div>
+                
             </div>
+                <section class="info-section">
+                  <h3>About Urine Protein to Creatinine Ratio (PCR)</h3>
+                  <p>The Urine Protein to Creatinine Ratio (PCR) is a test used to estimate the amount of protein excreted in the urine, which helps assess kidney function and detect kidney damage.</p>
+                
+                  <h4>Normal and Abnormal Values</h4>
+                  <p>Normal PCR values are typically less than 0.2 mg/mg (or less than 200 mg/g). Values above this range suggest abnormal protein loss in the urine (proteinuria).</p>
+                  <p>Higher PCR values can indicate kidney disease, infection, or other medical conditions affecting the kidneys.</p>
+                  <h4>Interpreting PCR Results</h4>
+                  <p>
+                    - <strong>Normal PCR:</strong> Less than 0.2 mg/mg – suggests normal kidney function.<br>
+                    - <strong>Mild proteinuria:</strong> 0.2 to 0.5 mg/mg – may indicate early kidney damage.<br>
+                    - <strong>Significant proteinuria:</strong> Above 0.5 mg/mg – often indicates kidney disease requiring further evaluation.
+                  </p>
+                  <h4>Example Calculation</h4>
+                  <p>If your urine protein is 150 mg/dL and urine creatinine is 100 mg/dL, your PCR is calculated as 1.5 (150/100), which indicates significant proteinuria.</p>
+                
+                  <h4>Limitations and Notes</h4>
+                  <p>
+                    - PCR is a convenient alternative to 24-hour urine protein collection but may be influenced by factors like hydration status.<br>
+                    - Results should be interpreted alongside clinical findings and other tests.<br>
+                    - Consult your healthcare provider for accurate diagnosis and treatment.
+                  </p>
+                
+                  <p><em>Disclaimer: This calculator is for educational purposes only and does not replace professional medical advice.</em></p>
+                </section>
+            
         </div>
         
         <!-- INR Calculator Tab Content -->
@@ -287,33 +368,104 @@
                         <li>High risk patients: 2.5-3.5</li>
                     </ul>
                 </div>
+              </div>
+                <section class="info-section">
+                  <h3>About International Normalized Ratio (INR)</h3>
+                  <p>The International Normalized Ratio (INR) is a standardized way of measuring how long it takes your blood to clot. It is commonly used to monitor patients on blood-thinning medications such as warfarin, ensuring the blood does not clot too quickly or too slowly.</p>
                 
-                <div class="footer">Developed by: M. K.</div>
+                  <h4>Normal and Abnormal Values</h4>
+                  <p>For healthy individuals not on anticoagulants, the normal INR is usually around 1.0. For patients on blood thinners, the therapeutic INR range depends on the condition but often falls between 2.0 and 3.0.</p>
+                
+                  <h4>Interpreting INR Results</h4>
+                  <p>
+                    - <strong>INR ~1.0:</strong> Normal clotting in people not on anticoagulants.<br>
+                    - <strong>INR 2.0-3.0:</strong> Typical therapeutic range for many conditions like atrial fibrillation or deep vein thrombosis.<br>
+                    - <strong>INR &gt;3.0:</strong> Increased risk of bleeding — dose adjustment and careful monitoring required.
+                  </p>
+                
+                  <h4>Example Calculation</h4>
+                  <p>If a patient’s prothrombin time (PT) test shows a clotting time of 30 seconds and the control PT time is 12 seconds with an ISI of 1.0, the INR is calculated as:</p>
+                  <p><em>INR = (Patient PT / Control PT) ^ ISI = (30 / 12) ^ 1.0 = 2.5</em></p>
+                  <p>This value falls within the typical therapeutic range.</p>
+                
+                  <h4>Limitations and Notes</h4>
+                  <p>
+                    - INR is primarily used to monitor patients on vitamin K antagonists (like warfarin).<br>
+                    - Different labs may have slight variations in ISI values; the INR standardizes results across labs.<br>
+                    - Certain conditions and medications can affect INR results.<br>
+                    - Always follow your healthcare provider’s guidance on managing INR and medication doses.
+                  </p>
+                
+                  <p><em>Disclaimer: This calculator is for educational purposes only and is not a substitute for professional medical advice or testing.</em></p>
+                </section>
+
+            
             </div>
+        
+        <!-- ESR Calculator Tab Content -->
+        <div id="esr-content" class="tab-content">
+          <div class="container">
+              <h2>ESR Correction at 18°C</h2>
+      
+              <label for="esrValue">Observed ESR (mm/hr):</label>
+              <input type="number" id="esrValue" placeholder="Enter ESR value" required>
+      
+              <label for="tempValue">Measurement Temperature (°C):</label>
+              <input type="number" id="tempValue" placeholder="Enter temperature" required>
+      
+              <button onclick="calculateESR()">Correct ESR at 18°C</button>
+      
+              <div class="result" id="esrResult" style="display: none;"></div>
+              <div class="calculation" id="esrCalculationDetails" style="display: none;"></div>
+              
+              <div class="esr-reference">
+                  <h4>Reference: Manley's Nomogram</h4>
+              </div>
+          </div>
+          <section class="info-section">
+            <h3>About Erythrocyte Sedimentation Rate (ESR)</h3>
+            <p>The Erythrocyte Sedimentation Rate (ESR) is a blood test that measures how quickly red blood cells (erythrocytes) settle at the bottom of a test tube in one hour. It is a nonspecific marker of inflammation and can help detect conditions such as infections, autoimmune diseases, and cancers.</p>
+          
+            <h4>The Westergren Method</h4>
+            <p>The most commonly used technique to measure ESR is the <strong>Westergren method</strong>. In this method, anticoagulated blood is placed in a vertical tube (Westergren tube) and the rate at which red blood cells fall is measured in millimeters per hour (mm/hr). The longer the red cells take to settle, the lower the ESR, and vice versa.</p>
+          
+            <h4>18-Degree Nomogram Compensation</h4>
+            <p>The Westergren method results are temperature-sensitive. The <em>18-degree Celsius compensation nomogram</em> is often used to adjust ESR values measured at temperatures other than 18°C to standardize results. This ensures accurate interpretation regardless of lab environment temperature.</p>
+          
+            <h4>Normal and Abnormal Values</h4>
+            <p>ESR normal values vary by age and sex:</p>
+            <ul>
+              <li>Men under 50 years: 0-15 mm/hr</li>
+              <li>Men over 50 years: 0-20 mm/hr</li>
+              <li>Women under 50 years: 0-20 mm/hr</li>
+              <li>Women over 50 years: 0-30 mm/hr</li>
+            </ul>
+            <p>Higher values may indicate inflammation, infection, or other disease states.</p>
+          
+            <h4>Interpreting ESR Results</h4>
+            <p>
+              - <strong>Low ESR:</strong> Usually not clinically significant but may be seen in certain conditions like polycythemia.<br>
+              - <strong>High ESR:</strong> Suggests inflammation but is nonspecific. Further tests may be needed to find the cause.<br>
+              - ESR is a useful marker to monitor disease progression or response to treatment.
+            </p>
+          
+            <h4>Example Calculation</h4>
+            <p>If an ESR is measured at 25 mm/hr at 25°C, the 18-degree compensation nomogram can be used to adjust this value to standard conditions. (You may use the nomogram or formulas provided by your lab for exact compensation.)</p>
+          
+            <h4>Limitations and Notes</h4>
+            <p>
+              - ESR is a nonspecific test and should not be used alone for diagnosis.<br>
+              - Factors like anemia, pregnancy, and medications can affect ESR.<br>
+              - Always interpret ESR results in clinical context.<br>
+              - Use alongside other inflammatory markers like CRP for better accuracy.
+            </p>
+          
+            <p><em>Disclaimer: This calculator is for educational purposes only and is not a substitute for professional medical advice or testing.</em></p>
+          </section>
+            
         </div>
-    </div>
-    <!-- ESR Calculator Tab Content -->
-    <div id="esr-content" class="tab-content">
-        <div class="container">
-            <h2>ESR Correction at 18°C</h2>
-
-            <label for="esrValue">Observed ESR (mm/hr):</label>
-            <input type="number" id="esrValue" placeholder="Enter ESR value" required>
-
-            <label for="tempValue">Measurement Temperature (°C):</label>
-            <input type="number" id="tempValue" placeholder="Enter temperature" required>
-
-            <button onclick="calculateESR()">Correct ESR at 18°C</button>
-
-            <div class="result" id="esrResult" style="display: none;"></div>
-            <div class="calculation" id="esrCalculationDetails" style="display: none;"></div>
-			<div class="esr-reference">
-              <h4>Reference: Manley's Nomogram</h4>
-         	</div>
-            <div class="footer">Developed by: M. K.</div>
-        </div>
-    </div>
-
+      </div>
+    
 
     <script>
         // Tab switching functionality
@@ -546,5 +698,53 @@
         document.getElementById("esrCalculationDetails").style.display = "block";*/
     }
     </script> 
+    <footer>
+	  <ul>
+		<li><a href="privacy.html">Privacy Policy</a></li>
+		<li><a href="terms.html">Terms & Conditions</a></li>
+		<li><a href="about.html">About Us</a></li>
+	  </ul>
+	<p><br>PathCal &copy; 2025<br><br>Developed by: M. K.</p>
+    </footer>
+
+	<style>
+	  footer {
+		max-width: 65%;
+		height: auto;
+		margin: 40px auto 0;
+		padding: 40px;
+		background: white;
+		border-radius: 8px;
+		box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+		overflow: hidden;
+	  }
+
+	  footer ul {
+		list-style: none;
+		padding: 0;
+		display: flex;
+		gap: 20px;
+		justify-content: center;
+		margin: 0;
+	  }
+
+	  footer ul li a {
+		color: blue;
+		text-decoration: none;
+		font-size: 16px;
+		font-style: bold;
+	  }
+
+	  footer ul li a:hover {
+		text-decoration: underline;
+	  }
+	footer p {
+		margin: 0;
+		text-align: center;
+		line-height: 1.4;
+	}
+	</style>
+
+      
 </body>
 </html>
