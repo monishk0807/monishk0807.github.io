@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://monishk0807.github.io/sitemap.xml
+Sitemap: https://monishk0807.github.io/sitemap-xml.xml
+
